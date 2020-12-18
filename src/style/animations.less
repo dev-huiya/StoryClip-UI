@@ -1,0 +1,66 @@
+.animation-bottom-to-up-appear, .animation-bottom-to-up-appear-active, .animation-bottom-to-up-appear-done,
+.animation-bottom-to-up-enter, .animation-bottom-to-up-enter-active, .animation-bottom-to-up-enter-done,
+.animation-bottom-to-up-exit, .animation-bottom-to-up-exit-active, .animation-bottom-to-up-exit-done
+{
+    position: relative;
+    transition: all 0.2s ease,
+}
+
+.animation-bottom-to-up-enter,
+.animation-bottom-to-up-exit-done {
+    // bottom: -30px;
+    transform: translate3D(0, 30px, 0);
+    opacity: 0;
+}
+.animation-bottom-to-up-enter-done,
+.animation-bottom-to-up-exit {
+    // bottom: 0px;
+    transform: translate3D(0, 0px, 0);
+    opacity: 1;
+}
+
+// fade
+.animation-fade-appear, .animation-fade-appear-active, .animation-fade-appear-done,
+.animation-fade-enter, .animation-fade-enter-active, .animation-fade-enter-done,
+.animation-fade-exit, .animation-fade-exit-active, .animation-fade-exit-done
+{
+    position: relative;
+    transition: all 0.7s ease-in,
+}
+
+.animation-fade-enter,
+.animation-fade-exit-done {
+    // transform: scale(1.2);
+    // filter: blur(3px);
+    opacity: 0;
+}
+.animation-fade-enter-done,
+.animation-fade-exit {
+    // transform: scale(1);
+    // filter: blur(0px);
+    opacity: 1;
+}
+
+// scale
+.animation-scale-appear, .animation-scale-appear-active, .animation-scale-appear-done,
+.animation-scale-enter, .animation-scale-enter-active, .animation-scale-enter-done,
+.animation-scale-exit, .animation-scale-exit-active, .animation-scale-exit-done
+{
+    position: relative;
+    transition: all 0.1s ease-in-out,
+}
+
+.animation-scale-enter,
+.animation-scale-exit-done {
+    // transform: scale(1.2);
+    // filter: blur(3px);
+    transform: scaleX(0.9);
+    opacity: 0.0;
+}
+.animation-scale-enter-done,
+.animation-scale-exit {
+    // transform: scale(1);
+    // filter: blur(0px);
+    transform: scaleX(1);
+    opacity: 1;
+}

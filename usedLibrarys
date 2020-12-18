@@ -1,0 +1,82 @@
+Thanks to the developers, contributors and copyright holders of the library below.
+아래 라이브러리의 개발자, 기여자, 저작권자들에게 감사의 인사를 전합니다.
+
+react
+https://github.com/facebook/react/
+Copyright (c) Facebook, Inc. and its affiliates.
+MIT License
+
+react-router-dom
+https://github.com/ReactTraining/react-router
+Copyright (c) React Training 2016-2018
+MIT License
+
+axios
+https://github.com/axios/axios
+Copyright (c) 2014-present Matt Zabriskie
+MIT License
+
+lodash
+https://github.com/lodash/lodash
+Copyright JS Foundation and other contributors <https://js.foundation/>
+MIT License
+
+jsonwebtoken
+https://github.com/auth0/node-jsonwebtoken
+Copyright (c) 2015 Auth0, Inc. <support@auth0.com> (http://auth0.com)
+MIT License
+
+prop-types
+https://github.com/facebook/prop-types
+Copyright (c) 2013-present, Facebook, Inc.
+MIT License
+
+fontello
+http://fontello.com/
+Copyright (C) 2011 by Vitaly Puzrin
+MIT License
+
+fontello-cli
+https://github.com/paulyoung/fontello-cli
+Copyright (c) 2013 Paul Young
+MIT License
+
+store.js
+https://github.com/marcuswestin/store.js
+Copyright (c) 2010-2017 Marcus Westin
+MIT License
+
+react-device-detect
+https://github.com/duskload/react-device-detect
+Copyright (c) 2017 duskload
+MIT License
+
+Toastify
+https://github.com/apvarun/toastify-js
+Copyright (c) 2018 apvarun
+MIT License
+
+react-transition-group
+https://github.com/reactjs/react-transition-group
+Copyright (c) 2018, React Community
+BSD 3-Clause License
+
+react-loading-skeleton
+https://github.com/dvtng/react-loading-skeleton
+Copyright 2017 David Tang
+MIT License
+
+react-infinite-scroll-component
+https://github.com/ankeetmaini/react-infinite-scroll-component
+Copyright (c) 2019 react-infinite-scroll-component
+MIT License
+
+react-feather
+https://github.com/feathericons/react-feather
+Copyright (c) 2017 Carmelo Pullara
+MIT License
+
+react-recaptcha-v3
+https://github.com/codeep/react-recaptcha-v3
+Codeep
+MIT License
