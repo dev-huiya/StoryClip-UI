@@ -1,7 +1,5 @@
-# MyBooks UI
-React로 만든 MyBooks UI
-
-[https://books.huiya.me](https://books.huiya.me)
+# StoryClip UI
+React로 만든 StoryClip UI
 
 ## Nginx 설정
 참고: [https://zetawiki.com/wiki/시놀로지_Web_Station_Nginx_설정_변경](https://zetawiki.com/wiki/시놀로지_Web_Station_Nginx_설정_변경)
