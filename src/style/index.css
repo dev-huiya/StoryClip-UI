@@ -31,6 +31,8 @@ html, body, #root {
     height: 100vh;
 }
 
+@import "./Components.css";
+
 @import "./helper.css";
 
 @import "../fontello/css/fontello.css";
