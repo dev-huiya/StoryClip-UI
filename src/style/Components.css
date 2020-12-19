@@ -1,0 +1,32 @@
+.blue {
+  color: #1483ff;
+}
+.red {
+  color: #ff4949;
+}
+.toastify.info {
+  padding: 17px 25px;
+  font-size: 12px;
+  font-family: "Segoe UI", Arial, "Malgun Gothic", Gulim, sans-serif;
+  border-radius: 7px;
+  background-color: #333;
+  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(0, 0, 0, 0.3);
+  max-width: calc(100vw - 30px);
+  width: fit-content;
+  box-sizing: border-box;
+}
+.toastify.info.black {
+  background-color: #333;
+  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(0, 0, 0, 0.3);
+  color: #FFF;
+}
+.toastify.info.red {
+  background: #ff4949;
+  box-shadow: 0 3px 6px -1px rgba(255, 73, 73, 0.12), 0 10px 20px -4px rgba(255, 73, 73, 0.3);
+  color: #FFF;
+}
+.toastify.info.green {
+  background: #3bab3f;
+  box-shadow: 0 3px 6px -1px rgba(59, 171, 63, 0.12), 0 10px 20px -4px rgba(59, 171, 63, 0.3);
+  color: #FFF;
+}

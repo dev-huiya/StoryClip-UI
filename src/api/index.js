@@ -38,8 +38,7 @@ instance.interceptors.response.use(
         return _.get(res, "data.resultData", {});
     },
     function (error) {
-        showToast(getErrorMessage(error.data.message), "red");
-
+        showToast(getErrorMessage("SERVER_ERROR"), "red");
         return Promise.reject(error);
     }
 );

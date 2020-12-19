@@ -12,6 +12,13 @@ export const getErrorMessage = (key) => {
         case "AUTH_WRONG":
             message = "잘못된 계정 정보입니다."
             break;
+        case "JOIN_DUPLICATE":
+            message = "이미 사용하고 있는 이메일입니다."
+            break;
+        case "CAPTCHA_EMPTY":
+        case "CAPTCHA_FAIL":
+            message = "캡챠 인증에 실패했습니다."
+            break;
         
         // JWT verify 검증 실패
         case "TokenExpiredError":

@@ -14,7 +14,6 @@ import { showToast } from "utils";
 let interval = null
 function Page({ ...props }) {
     const [isLoading, setLoading] = useState(false);
-    const [isDoJoin, setJoin] = useState(false);
     const [state, dispatch] = useReducer(reducer, {
         email: "",
         password: "",
@@ -60,14 +59,37 @@ function Page({ ...props }) {
     }, [state]);
 
     const doJoin = useCallback(() => {
-        console.log("do join")
-        console.log(state);
+        setLoading(true);
+
+        // TODO: 가입시 validation 추가 바람
+
+        if (!state.email || !state.password) {
+            showToast("이메일 혹은 비밀번호가 입력되지 않았습니다.", "red");
+            return false;
+        }
+
+        const formData = new FormData();
+        formData.append('email', state.email);
+        formData.append('password', state.password);
+        formData.append('penName', state.penName);
+        formData.append('profile', state.profile);
+        formData.append('recaptchaToken', state.recaptchaToken);
+        
+        query({
+            url: "/user/join",
+            method: "POST",
+            data: formData,
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((e) => {
+            console.log(e)
+        })
+        .finally(()=>{
+            setLoading(false);
+        })
     }, [state, history]);
-
-    useEffect(()=>{
-        console.log(state.recaptchaToken)
-
-    }, [state])
 
     return (
         <React.Fragment>
