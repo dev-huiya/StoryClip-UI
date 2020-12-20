@@ -39,7 +39,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-console.log(`%c${description} v${version}`, "color:#1483ff;font-family: 'NanumSquareRound',sans-serif;font-size:36px;font-weight:900");
+console.log(`%c${description} v${version}`, "color:#F1507C;font-family: 'NanumSquareRound',sans-serif;font-size:28px;font-weight:900");
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
