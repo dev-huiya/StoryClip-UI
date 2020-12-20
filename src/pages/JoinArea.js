@@ -14,15 +14,28 @@ import { showToast } from "utils";
 let interval = null
 function Page({ ...props }) {
     const [isLoading, setLoading] = useState(false);
-    const [state, dispatch] = useReducer(reducer, {
+    const initState = {
         email: "",
         password: "",
         password_confirm: "",
         penName: "",
         profile: "",
         recaptchaToken: "",
-    });
+    }
+    const [state, dispatch] = useReducer(reducer, initState);
     let history = useHistory();
+
+    const form = useRef(null);
+    const resetState = useCallback(()=>{
+        form.current.reset();
+        Object.keys(initState).forEach(key=>{
+            dispatch({
+                type: "ChangeInput",
+                name: key,
+                value: "",
+            })
+        })
+    }, [form, initState])
 
     // 리캡챠 코드
     const recaptcha = useRef(null);
@@ -30,7 +43,7 @@ function Page({ ...props }) {
     useEffect(() => {
         loadReCaptcha(process.env.REACT_APP_RECAPTCHA_SITE_KEY, (e) => { });
 
-        window.setInterval(updateToken, 100 * 1000);
+        interval = window.setInterval(updateToken, 100 * 1000);
         return () => {
             window.clearInterval(interval);
         }
@@ -76,74 +89,87 @@ function Page({ ...props }) {
         formData.append('recaptchaToken', state.recaptchaToken);
         
         query({
-            url: "/user/join",
+            url: "/account/signup",
             method: "POST",
             data: formData,
         })
         .then((res) => {
             console.log(res);
+
+            if(res.join == true) {
+                showToast("가입에 성공했습니다.", "green");
+                resetState();
+            } else {
+                showToast("가입에 실패했습니다.", "red");
+            }
         })
         .catch((e) => {
             console.log(e)
         })
         .finally(()=>{
             setLoading(false);
+            updateToken();
         })
     }, [state, history]);
 
     return (
         <React.Fragment>
             <h2>회원가입</h2>
-            <Input 
-                type="file" 
-                label="프로필" 
-                name="profile" 
-                onChange={dispatch} 
-            />
-            <Input 
-                name="email" 
-                value={state.email} 
-                onChange={dispatch} 
-                className="w-full" 
-                label="이메일" 
-                required 
-            />
-            <Input 
-                name="penName" 
-                value={state.pen_name} 
-                onChange={dispatch} 
-                className="w-full" 
-                label="필명" 
-                required 
-            />
-            <Input 
-                name="password" 
-                value={state.password} 
-                type="password" 
-                onChange={dispatch} 
-                onKeyDown={onEnterKey} 
-                className="w-full" 
-                label="비밀번호" 
-                required 
-            />
-            <Input 
-                name="password_confirm" 
-                value={state.password_confirm} 
-                type="password" 
-                onChange={dispatch} 
-                onKeyDown={onEnterKey} 
-                className="w-full" 
-                label="비밀번호 확인" 
-                required 
-            />
-            <Button 
-                label="회원가입" 
-                className="w-full" 
-                color="blue-gradient" 
-                type="button" 
-                onClick={doJoin} 
-                isLoading={isLoading} 
-            />
+            <form
+                ref={form}
+            >
+                <Input 
+                    type="file" 
+                    label="프로필" 
+                    name="profile" 
+                    onChange={dispatch} 
+                />
+                <Input 
+                    name="email" 
+                    value={state.email} 
+                    onChange={dispatch} 
+                    className="w-full" 
+                    label="이메일" 
+                    required 
+                />
+                <Input 
+                    name="penName" 
+                    value={state.penName} 
+                    onChange={dispatch} 
+                    className="w-full" 
+                    label="필명" 
+                    required 
+                />
+                <Input 
+                    name="password" 
+                    value={state.password} 
+                    type="password" 
+                    onChange={dispatch} 
+                    onKeyDown={onEnterKey} 
+                    className="w-full" 
+                    label="비밀번호" 
+                    required 
+                />
+                <Input 
+                    name="password_confirm" 
+                    value={state.password_confirm} 
+                    type="password" 
+                    onChange={dispatch} 
+                    onKeyDown={onEnterKey} 
+                    className="w-full" 
+                    label="비밀번호 확인" 
+                    required 
+                />
+                <Button 
+                    label="회원가입" 
+                    className="w-full" 
+                    color="blue-gradient" 
+                    type="button" 
+                    onClick={doJoin} 
+                    isLoading={isLoading} 
+                />
+            </form>
+            
             <ReCaptcha 
                 ref={recaptcha} 
                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
