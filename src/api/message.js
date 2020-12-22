@@ -21,9 +21,11 @@ export const getErrorMessage = (key) => {
             break;
         
         // JWT verify 검증 실패
+        case "JWT_EXPIRED_ERROR":
         case "TokenExpiredError":
             message = "만료된 토큰입니다."
             break;
+        case "JWT_VERIFY_ERROR": 
         case "JsonWebTokenError":
             message = "토큰 검증에 실패했습니다."
             break;
@@ -38,6 +40,12 @@ export const getErrorMessage = (key) => {
         case "JWT_PUB_KEY_EMPTY":
             message = "JWT 공개 키가 없습니다."
             break;
+
+        // 일반 오류
+        case "PARAM_REQUIRED":
+            message = "필수 입력값이 누락되었습니다."
+            break;
+
         default: 
             message = "서버에서 오류가 발생했습니다."
     }

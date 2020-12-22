@@ -23,6 +23,7 @@ function AuthRoute({ component: Component, render, withoutLogin = false, ...rest
             }
         } catch (error) {
             // 검증 실패했을 때
+            // TODO: 검증 실패시 refresh_token으로 다시 JWT 요청해야함.
             showToast(getErrorMessage(error.name), "red");
             console.error(error, rest.location.pathname);
             store.clearAll();

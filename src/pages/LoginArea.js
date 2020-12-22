@@ -26,17 +26,17 @@ function Page({ ...props }) {
 
             setLoading(true);
             query({
-                url: "/login",
+                url: "/account/signin",
                 method: "POST",
                 data: {
-                    name: state.email,
+                    email: state.email,
                     password: state.password,
                 },
             })
             .then((res) => {
                 setLoading(false);
 
-                jwt.verify(res.token, res.keys[0], (error, tokenData)=>{
+                jwt.verify(res.token, res.publicKey, (error, tokenData)=>{
                     if (error && error.stack) {
                         // it's an error, probably
                         console.log("token verify error");
@@ -44,13 +44,15 @@ function Page({ ...props }) {
                         return false;
                     }
 
-                    let data = _.pick(tokenData, ["name", "power"]);
+                    let data = _.pick(tokenData, ["info"]);
 
                     store.set("user", {
                         ...data,
                         token: res.token,
-                        key: res.keys[0],
+                        key: res.publicKey,
                         // 간이 검증시 저장된 키를, 완전 검증시 서버에서 불러온 키를 사용할 것.
+                        refreshToken: data.info.refreshToken,
+                        refreshExpireDate: data.info.refreshExpireDate,
                     });
     
                     console.log("login component: login success");
