@@ -1,41 +1,28 @@
-import React, { useCallback } from 'react';
-import { Route, Redirect } from "react-router-dom";
-import jwt from "jsonwebtoken";
-import store from "store";
+import React, { useCallback, useEffect } from 'react';
+import { Route, Redirect, useHistory } from "react-router-dom";
 
-import { getErrorMessage } from "api"
-import { showToast } from "utils"
+import Auth from "Auth"
 
 function AuthRoute({ component: Component, render, withoutLogin = false, ...rest }) {
 
-    const isLogin = useCallback(() => {
-        try {
-            let user = store.get('user');
-            if(!!user && !!user.token && !!user.key) {
-                let result = jwt.verify(user.token, user.key);
-                console.log(result);
-                console.log("token is verified", rest.location.pathname)
-                return true;
-            } else {
-                console.log("no token", rest.location)
-                // 토큰이나 키가 없을 때
-                return false;
-            }
-        } catch (error) {
-            // 검증 실패했을 때
-            // TODO: 검증 실패시 refresh_token으로 다시 JWT 요청해야함.
-            showToast(getErrorMessage(error.name), "red");
-            console.error(error, rest.location.pathname);
-            store.clearAll();
-            return false;
-        }
-    }, []);
+    // let history = useHistory();
+
+    // useEffect(()=>{
+    //     (async function doDeepVerify() {
+    //         let result = await Auth.deepVerify();
+    //         console.log("AuthRoute doDeepVerify:", result);
+    //         if(result == false) {
+    //             history.push("/logout")
+    //         }
+    //     })();
+        
+    // }, [history])
     
     return (
         <Route
             {...rest}
             render={props => {
-                if(isLogin() === false) {
+                if(Auth.verify() === false) {
                     return (
                         <Redirect
                             to={{ 
