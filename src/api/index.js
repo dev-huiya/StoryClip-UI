@@ -38,7 +38,7 @@ instance.interceptors.response.use(
         return _.get(res, "data.resultData", {});
     },
     function (error) {
-        showToast(getErrorMessage("SERVER_ERROR"), "red");
+        showToast(getErrorMessage(error.response.data.message), "red");
         return Promise.reject(error);
     }
 );
@@ -63,7 +63,7 @@ const query = ({ url, method = "get", data }) => {
     let user = store.get('user');
     if(!!user && !!user.token && !!user.key) {
         headers = {
-            Authorization: "Token " + user.token,
+            Authorization: "Bearer " + user.token,
         }
     }
 
