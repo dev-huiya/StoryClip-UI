@@ -11,7 +11,7 @@ function Page({ ...props }) {
     useEffect(()=>{
         query({
             url: "/auth/signout",
-            method: "GET",
+            method: "DELETE",
         })
         .then((res) => {
             console.log(res);
