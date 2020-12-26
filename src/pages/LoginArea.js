@@ -55,6 +55,11 @@ function Page({ recaptchaToken, updateToken, ...props }) {
                         refreshToken: data.info.refreshToken,
                         refreshExpireDate: data.info.refreshExpireDate,
                     });
+
+                    navigator.serviceWorker.controller.postMessage({
+                        type: 'SEND_TOKEN',
+                        token: res.token,
+                    });
     
                     console.log("login component: login success");
 
