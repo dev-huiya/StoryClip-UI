@@ -3,7 +3,6 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import jwt from "jsonwebtoken";
 import store from "store";
 import _ from "lodash";
-import { ReCaptcha, loadReCaptcha } from "react-recaptcha-v3";
 
 import reducer from "utils/reducer";
 import { Input, Button } from "Components";
@@ -11,8 +10,7 @@ import query, { getErrorMessage } from "api";
 
 import { showToast } from "utils";
 
-let interval = null
-function Page({ ...props }) {
+function Page({ recaptchaToken, updateToken, ...props }) {
     const [isLoading, setLoading] = useState(false);
     const initState = {
         email: "",
@@ -20,7 +18,6 @@ function Page({ ...props }) {
         password_confirm: "",
         penName: "",
         profile: "",
-        recaptchaToken: "",
     }
     const [state, dispatch] = useReducer(reducer, initState);
     let history = useHistory();
@@ -37,34 +34,6 @@ function Page({ ...props }) {
         })
     }, [form, initState])
 
-    // 리캡챠 코드
-    const recaptcha = useRef(null);
-
-    useEffect(() => {
-        loadReCaptcha(process.env.REACT_APP_RECAPTCHA_SITE_KEY, (e) => { });
-
-        interval = window.setInterval(updateToken, 100 * 1000);
-        return () => {
-            window.clearInterval(interval);
-        }
-    }, []);
-
-    const verifyCallback = useCallback((recaptchaToken) => {
-        // Here you will get the final recaptchaToken!!!
-        // console.log(recaptchaToken, "<= your recaptcha token");
-        dispatch({
-            type: "ChangeInput",
-            name: "recaptchaToken",
-            value: recaptchaToken,
-        });
-    }, []);
-
-    const updateToken = useCallback(() => {
-        // you will get a new token in verifyCallback
-        recaptcha.current.execute();
-    }, [recaptcha]);
-    // 리캡챠 코드 종료
-
     const onEnterKey = useCallback((e) => {
         if (e.keyCode == 13) {
             doJoin();
@@ -78,6 +47,7 @@ function Page({ ...props }) {
 
         if (!state.email || !state.password) {
             showToast("이메일 혹은 비밀번호가 입력되지 않았습니다.", "red");
+            setLoading(false);
             return false;
         }
 
@@ -86,7 +56,7 @@ function Page({ ...props }) {
         formData.append('password', state.password);
         formData.append('penName', state.penName);
         formData.append('profile', state.profile);
-        formData.append('recaptchaToken', state.recaptchaToken);
+        formData.append('recaptchaToken', recaptchaToken);
         
         query({
             url: "/account/signup",
@@ -110,7 +80,7 @@ function Page({ ...props }) {
             setLoading(false);
             updateToken();
         })
-    }, [state, history]);
+    }, [state, history, recaptchaToken, updateToken]);
 
     return (
         <React.Fragment>
@@ -169,13 +139,6 @@ function Page({ ...props }) {
                     isLoading={isLoading} 
                 />
             </form>
-            
-            <ReCaptcha 
-                ref={recaptcha} 
-                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                action="join" 
-                verifyCallback={verifyCallback} 
-            />
         </React.Fragment>
     );
 }

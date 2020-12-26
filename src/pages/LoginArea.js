@@ -9,7 +9,7 @@ import { Input, Button } from "Components";
 import query, { getErrorMessage } from "api";
 import { showToast } from "utils";
 
-function Page({ ...props }) {
+function Page({ recaptchaToken, updateToken, ...props }) {
     const [isLoading, setLoading] = useState(false);
     const [state, dispatch] = useReducer(reducer, {
         email: "",
@@ -26,11 +26,12 @@ function Page({ ...props }) {
 
             setLoading(true);
             query({
-                url: "/account/signin",
+                url: "/auth/signin",
                 method: "POST",
                 data: {
                     email: state.email,
                     password: state.password,
+                    recaptchaToken: recaptchaToken,
                 },
             })
             .then((res) => {
@@ -64,9 +65,10 @@ function Page({ ...props }) {
             })
             .catch((error) => {
                 setLoading(false);
+                updateToken();
             });
         },
-        [state, history]
+        [state, history, recaptchaToken, updateToken]
     );
 
     const onEnterKey = useCallback((e)=>{

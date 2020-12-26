@@ -3,6 +3,7 @@ import _ from "lodash";
 import store from "store";
 
 import query from "api";
+import Button from "Components/Button"
 
 const animationOptions = {
     appear: true,
@@ -10,7 +11,7 @@ const animationOptions = {
     unmountOnExit: true,
 }
 
-function Page() {
+function Page({ ...props }) {
 
     return (
         <React.Fragment>
@@ -36,6 +37,14 @@ function Page() {
                                         marginLeft: "20px",
                                     }}
                                 >{store.get('user').refreshToken}</div>
+                            </div>
+                            <div>
+                                <Button
+                                    label={"로그아웃"}
+                                    onClick={()=>{ props.history.push('/logout'); }}
+                                    color="blue-gradient" 
+                                    type="button" 
+                                />
                             </div>
                         </div>
                     </div>
