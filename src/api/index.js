@@ -1,3 +1,4 @@
+import Auth from "Auth";
 import axios from "axios";
 import _ from "lodash";
 import store from "store";
@@ -16,20 +17,6 @@ instance.interceptors.response.use(
         if (res.data.success != true) {
             // 응답에 success 값이 true가 아니면 실패처리.
             showToast(getErrorMessage(res.data.message), "red");
-
-            // 서버에서 계정 관련한 에러메세지 내려보냈을 때 로그인으로 이동
-            switch(res.data.message) {
-                case "AUTH_REQURED":
-                case "AUTH_WRONG":
-                // JWT verify 검증 실패
-                case "TokenExpiredError":
-                case "JsonWebTokenError":
-                case "NotBeforeError":
-                    console.log("api is required login")
-                    // TODO: store.dispatch로 로그인 튕겨버리고, reducer 적용해서 해당 dispatch 감지하여 로그아웃 처리바람.
-                    break;
-                default:
-            }
             
             return Promise.reject(res);
         }
@@ -37,7 +24,26 @@ instance.interceptors.response.use(
         // 응답에서 resultData 안에 담겨있는 것만 보내고, 없으면 빈 객체를 보낸다.
         return _.get(res, "data.resultData", {});
     },
-    function (error) {
+    async function (error) {
+        // 서버에서 계정 관련한 에러메세지 내려보냈을 때 로그인으로 이동
+        switch(error.response.data.message) {
+            case "JWT_EXPIRED_ERROR":
+            case "TokenExpiredError":
+                // 토큰 만료.
+                // TODO: refresh_token 여부에 따라서 /logout 혹은 refresh 작동.
+
+                // 아니 react dom v4에선 외부에서 history 조작이 안된다고 함; 어이없네
+                // 2020-12-27 23:23 hw.kim
+                
+                if(store.get('user').refreshToken) {
+                    await Auth.refresh()
+                    error.config.headers.Authorization = store.get('user').token;
+                    return instance(error.config);
+                }
+                break;
+            default:
+        }
+
         showToast(getErrorMessage(error.response.data.message), "red");
         return Promise.reject(error);
     }

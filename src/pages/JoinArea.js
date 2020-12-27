@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer, useCallback, useRef } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import jwt from "jsonwebtoken";
 import store from "store";
 import _ from "lodash";
@@ -20,7 +20,6 @@ function Page({ recaptchaToken, updateToken, ...props }) {
         profile: "",
     }
     const [state, dispatch] = useReducer(reducer, initState);
-    let history = useHistory();
 
     const form = useRef(null);
     const resetState = useCallback(()=>{
@@ -80,7 +79,7 @@ function Page({ recaptchaToken, updateToken, ...props }) {
             setLoading(false);
             updateToken();
         })
-    }, [state, history, recaptchaToken, updateToken]);
+    }, [state, recaptchaToken, updateToken]);
 
     return (
         <React.Fragment>

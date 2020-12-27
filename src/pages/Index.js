@@ -88,6 +88,20 @@ function Page({ ...props }) {
                                 />
                                 <Link to="/test" >테스트 페이지 2</Link>
                                 <Button
+                                    label={"api 토큰 만료 테스트"}
+                                    onClick={() => {
+                                        query({
+                                            url: "/auth/key",
+                                        }).then(res=>{
+                                            console.log("then ", res);
+                                        }).catch(err=>{
+                                            console.log(err);
+                                        })
+                                    }}
+                                    color="blue-gradient" 
+                                    type="button" 
+                                />
+                                <Button
                                     label={"토큰 갱신"}
                                     onClick={async () => {
                                         await Auth.refresh();
