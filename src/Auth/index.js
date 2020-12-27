@@ -47,9 +47,11 @@ export const verify = () => {
         if(error.name == "TokenExpiredError") {
             // 토큰 만료 오류일때는 갱신한다.
             let result = (async () => await refresh() )();
-            if(result) {
-                return true;
-            }
+            // await이 작동한다기보다는 일단 페이지 승인해주고 
+            // 그 다음에 갱신된 정보 입력 받는거나 다름 없음.
+            // 토큰 갱신에 실패한다면 문제 생길 것으로 판단됨.
+            // 2020-12-28 00:43 hw.kim
+            return true;
         }
 
         showToast(getErrorMessage(error.name), "red");
