@@ -5,6 +5,7 @@ import store from "store";
 import _ from "lodash";
 
 import query from "api";
+import Auth from "Auth";
 
 function Page({ ...props }) {
 
@@ -20,8 +21,8 @@ function Page({ ...props }) {
                 console.log(res);
             })
             .finally((e)=>{
-                console.log("finally", e);
-                store.clearAll();
+                Auth.clearToken();
+
                 console.log("logout component: logout success");
                 props.history.push('/login');
             })

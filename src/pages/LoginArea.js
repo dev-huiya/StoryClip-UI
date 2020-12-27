@@ -8,6 +8,7 @@ import reducer from "utils/reducer";
 import { Input, Button } from "Components";
 import query, { getErrorMessage } from "api";
 import { showToast } from "utils";
+import Auth from "Auth";
 
 function Page({ recaptchaToken, updateToken, ...props }) {
     const [isLoading, setLoading] = useState(false);
@@ -37,36 +38,18 @@ function Page({ recaptchaToken, updateToken, ...props }) {
             .then((res) => {
                 setLoading(false);
 
-                jwt.verify(res.token, res.publicKey, (error, tokenData)=>{
-                    if (error && error.stack) {
-                        // it's an error, probably
-                        console.log("token verify error");
-                        showToast(getErrorMessage(error.name), "red");
-                        return false;
-                    }
-
-                    let data = _.pick(tokenData, ["info"]);
-
-                    store.set("user", {
-                        ...data,
-                        token: res.token,
-                        key: res.publicKey,
-                        // 간이 검증시 저장된 키를, 완전 검증시 서버에서 불러온 키를 사용할 것.
-                        refreshToken: data.info.refreshToken,
-                        refreshExpireDate: data.info.refreshExpireDate,
-                    });
-
-                    navigator.serviceWorker.controller.postMessage({
-                        type: 'SEND_TOKEN',
-                        token: res.token,
-                    });
-    
+                Auth.setToken(res.token, res.publicKey)
+                .then(()=>{
                     console.log("login component: login success");
 
                     window.setTimeout(()=>{
                         history.push(_.get(props.location, "state.from", "/"));
                     }, 500);
-                });
+                })
+                .catch((error)=>{
+                    console.log("token verify error");
+                    showToast(getErrorMessage(error.name), "red");
+                })
             })
             .catch((error) => {
                 setLoading(false);

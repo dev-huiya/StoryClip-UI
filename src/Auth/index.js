@@ -31,10 +31,7 @@ export const verify = () => {
         if(!!user && !!user.token && !!user.key) {
             let result = jwt.verify(user.token, user.key);
 
-            navigator.serviceWorker.controller.postMessage({
-                type: 'SEND_TOKEN',
-                token: user.token,
-            });
+            sendToken(user.token);
 
             return true;
         } else {
@@ -99,10 +96,7 @@ export const refresh = () => {
                     refreshExpireDate: data.info.refreshExpireDate,
                 });
 
-                navigator.serviceWorker.controller.postMessage({
-                    type: 'SEND_TOKEN',
-                    token: res.token,
-                });
+                sendToken(res.token);
 
                 resolve(true);
             });
@@ -111,11 +105,66 @@ export const refresh = () => {
             resolve(false);
         })
     })
+}
+
+/**
+ * 서비스워커에 토큰을 전달한다.
+ * 
+ * @param {string} token 
+ */
+const sendToken = (token) => {
+    navigator.serviceWorker.controller.postMessage({
+        type: 'SEND_TOKEN',
+        token: token,
+    });
+}
+
+/**
+ * 토큰을 저장한다.
+ * 
+ * @param {string} token 
+ * @param {string} publicKey 
+ */
+export const setToken = (token, publicKey) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, publicKey, (error, tokenData)=>{
+            if (error && error.stack) {
+                // it's an error, probably
+                throw error;
+            }
     
+            let data = _.pick(tokenData, ["info"]);
+    
+            store.set("user", {
+                ...data,
+                token: token,
+                key: publicKey,
+                // 간이 검증시 저장된 키를, 완전 검증시 서버에서 불러온 키를 사용할 것.
+                refreshToken: data.info.refreshToken,
+                refreshExpireDate: data.info.refreshExpireDate,
+            });
+
+            sendToken(token);
+
+            resolve(true);
+        })
+    })
+    
+}
+
+/**
+ * 저장된 토큰을 지운다.
+ * 
+ */
+export const clearToken = () => {
+    store.clearAll();
+    sendToken("");
 }
 
 export default {
     verify,
     deepVerify,
     refresh,
+    setToken,
+    clearToken,
 }
