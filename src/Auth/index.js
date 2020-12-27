@@ -76,30 +76,13 @@ export const refresh = () => {
             }
         })
         .then((res) => {
-            jwt.verify(res.token, res.publicKey, (error, tokenData)=>{
-                if (error && error.stack) {
-                    // it's an error, probably
-                    console.log("token verify error");
-                    showToast(getErrorMessage(error.name), "red");
-                    resolve(false);
-                    return false;
-                }
-
-                let data = _.pick(tokenData, ["info"]);
-
-                store.set("user", {
-                    ...data,
-                    token: res.token,
-                    key: res.publicKey,
-                    // 간이 검증시 저장된 키를, 완전 검증시 서버에서 불러온 키를 사용할 것.
-                    refreshToken: data.info.refreshToken,
-                    refreshExpireDate: data.info.refreshExpireDate,
-                });
-
-                sendToken(res.token);
-
+            setToken(res.token, res.publicKey)
+            .then(()=>{
                 resolve(true);
-            });
+            })
+            .catch((error)=>{
+                resolve(false);
+            })
         })
         .catch(error=>{
             resolve(false);

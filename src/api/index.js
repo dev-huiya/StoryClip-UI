@@ -30,16 +30,16 @@ instance.interceptors.response.use(
             case "JWT_EXPIRED_ERROR":
             case "TokenExpiredError":
                 // 토큰 만료.
-                // TODO: refresh_token 여부에 따라서 /logout 혹은 refresh 작동.
-
-                // 아니 react dom v4에선 외부에서 history 조작이 안된다고 함; 어이없네
-                // 2020-12-27 23:23 hw.kim
                 
                 if(store.get('user').refreshToken) {
                     await Auth.refresh()
                     error.config.headers.Authorization = store.get('user').token;
                     return instance(error.config);
                 }
+                // TODO: refresh_token 여부에 따라서 /logout 혹은 refresh 작동.
+
+                // 아니 react dom v4쓰면 외부에서 history 조작이 안된다고 함; 어이없네
+                // 2020-12-27 23:23 hw.kim
                 break;
             default:
         }
