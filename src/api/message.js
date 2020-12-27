@@ -23,7 +23,7 @@ export const getErrorMessage = (key) => {
         // JWT verify 검증 실패
         case "JWT_EXPIRED_ERROR":
         case "TokenExpiredError":
-            message = "만료된 토큰입니다."
+            message = "로그인 정보가 만료되었습니다."
             break;
         case "JWT_VERIFY_ERROR": 
         case "JsonWebTokenError":

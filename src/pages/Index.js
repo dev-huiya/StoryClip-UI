@@ -3,6 +3,10 @@ import _ from "lodash";
 import store from "store";
 
 import query from "api";
+import Button from "Components/Button"
+import Image from "Components/Image"
+import { Link } from "react-router-dom";
+import Auth from "Auth";
 
 const animationOptions = {
     appear: true,
@@ -10,7 +14,21 @@ const animationOptions = {
     unmountOnExit: true,
 }
 
-function Page() {
+function Page({ ...props }) {
+    const [ info, setInfo ] = useState({
+        profile: "",
+        email: "",
+        penName: "",
+        refreshToken: "",
+    })
+
+    const setInfomation = useCallback(()=>{
+        setInfo(store.get('user').info);
+    }, [setInfo])
+
+    useEffect(()=>{
+        setInfomation();
+    }, [])
 
     return (
         <React.Fragment>
@@ -20,13 +38,37 @@ function Page() {
                         <h2>Main page</h2>
                         <div style={{marginTop: "20px"}}>
                             <div className="flex">
-                                <div>token: </div>
+                                <div>profile: </div>
                                 <div
                                     style={{
                                         wordBreak: "break-all",
                                         marginLeft: "20px",
                                     }}
-                                >{store.get('user').token}</div>
+                                >
+                                    <Image 
+                                        width="200px"
+                                        height="200px"
+                                        src={store.get('user').info.profile} 
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div>email: </div>
+                                <div
+                                    style={{
+                                        wordBreak: "break-all",
+                                        marginLeft: "20px",
+                                    }}
+                                >{info.email}</div>
+                            </div>
+                            <div className="flex">
+                                <div>pen name: </div>
+                                <div
+                                    style={{
+                                        wordBreak: "break-all",
+                                        marginLeft: "20px",
+                                    }}
+                                >{info.penName}</div>
                             </div>
                             <div className="flex">
                                 <div>refresh_token: </div>
@@ -35,7 +77,45 @@ function Page() {
                                         wordBreak: "break-all",
                                         marginLeft: "20px",
                                     }}
-                                >{store.get('user').refreshToken}</div>
+                                >{info.refreshToken}</div>
+                            </div>
+                            <div>
+                                <Button
+                                    label={"테스트 페이지"}
+                                    onClick={()=>{ props.history.push('/test'); }}
+                                    color="blue-gradient" 
+                                    type="button" 
+                                />
+                                <Link to="/test" >테스트 페이지 2</Link>
+                                <Button
+                                    label={"api 토큰 만료 테스트"}
+                                    onClick={() => {
+                                        query({
+                                            url: "/auth/key",
+                                        }).then(res=>{
+                                            console.log("then ", res);
+                                        }).catch(err=>{
+                                            console.log(err);
+                                        })
+                                    }}
+                                    color="blue-gradient" 
+                                    type="button" 
+                                />
+                                <Button
+                                    label={"토큰 갱신"}
+                                    onClick={async () => {
+                                        await Auth.refresh();
+                                        setInfomation();
+                                    }}
+                                    color="blue-gradient" 
+                                    type="button" 
+                                />
+                                <Button
+                                    label={"로그아웃"}
+                                    onClick={()=>{ props.history.push('/logout'); }}
+                                    color="blue-gradient" 
+                                    type="button" 
+                                />
                             </div>
                         </div>
                     </div>
