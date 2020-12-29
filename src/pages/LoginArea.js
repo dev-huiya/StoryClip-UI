@@ -15,6 +15,7 @@ function Page({ recaptchaToken, updateToken, ...props }) {
     const [state, dispatch] = useReducer(reducer, {
         email: "",
         password: "",
+        autoLogin: false,
     });
     let history = useHistory();
 
@@ -33,6 +34,7 @@ function Page({ recaptchaToken, updateToken, ...props }) {
                     email: state.email,
                     password: state.password,
                     recaptchaToken: recaptchaToken,
+                    autoLogin: state.autoLogin,
                 },
             })
             .then((res) => {
@@ -85,6 +87,13 @@ function Page({ recaptchaToken, updateToken, ...props }) {
                 className="w-full" 
                 label="비밀번호" 
                 required
+            />
+            <Input 
+                type="checkbox" 
+                name="autoLogin"
+                checked={state.autoLogin}
+                onChange={dispatch}
+                label={"자동로그인"}
             />
             <Button 
                 label="로그인" 
