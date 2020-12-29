@@ -7,10 +7,24 @@ function Input({ onChange, label, type = "text", required, autoComplete = "off",
     const _onChange = useCallback((e) => {
         const _target = !!e.target ? e.target : e.currentTarget;
         if(typeof onChange == "function") {
+            let value = "";
+            
+            switch(type.toLowerCase()) {
+                case "file" :
+                    value = _target.files[0] || null;
+                    break;
+                case "checkbox" :
+                    value = _target.checked ? true : false;
+                    break;
+                default:
+                    // 단순한 input text 일 경우
+                    value = _target.value;
+            }
+            
             onChange({
                 type: "ChangeInput",
                 name: _target.name,
-                value: type.toLowerCase() != "file" ? _target.value : _target.files[0] || null,
+                value: value,
             })
         }
     }, []);
