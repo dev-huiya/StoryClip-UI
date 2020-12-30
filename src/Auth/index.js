@@ -11,6 +11,7 @@ export const deepVerify = () => {
         let user = store.get('user');
         if(!user || !user.token || !user.key) {
             resolve(false)
+            return false;
         }
 
         query({
@@ -26,8 +27,9 @@ export const deepVerify = () => {
 
 export const verify = () => {
     console.log("verify")
+    let user = store.get('user');
+
     try {
-        let user = store.get('user');
         if(!!user && !!user.token && !!user.key) {
             let result = jwt.verify(user.token, user.key);
 
@@ -44,7 +46,7 @@ export const verify = () => {
     } catch (error) {
         // 검증 실패했을 때
 
-        if(error.name == "TokenExpiredError") {
+        if(error.name == "TokenExpiredError" && !!user.refreshToken) {
             // 토큰 만료 오류일때는 갱신한다.
             let result = (async () => await refresh() )();
             // await이 작동한다기보다는 일단 페이지 승인해주고 
@@ -68,6 +70,7 @@ export const refresh = () => {
         let refreshToken = user.refreshToken;
         if(!refreshToken) {
             resolve(false);
+            return false;
         }
         
         query({
