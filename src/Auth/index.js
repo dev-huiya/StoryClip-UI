@@ -101,7 +101,7 @@ export const refresh = () => {
  * @param {string} token 
  */
 const sendToken = (token) => {
-    navigator.serviceWorker.controller.postMessage({
+    navigator.serviceWorker.controller.postMessage instanceof Function && navigator.serviceWorker.controller.postMessage({
         type: 'SEND_TOKEN',
         token: token,
     });

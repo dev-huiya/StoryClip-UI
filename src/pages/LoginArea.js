@@ -49,6 +49,7 @@ function Page({ recaptchaToken, updateToken, ...props }) {
                     }, 500);
                 })
                 .catch((error)=>{
+                    console.log(error);
                     console.log("token verify error");
                     showToast(getErrorMessage(error.name), "red");
                 })

@@ -31,9 +31,10 @@ instance.interceptors.response.use(
             case "TokenExpiredError":
                 // 토큰 만료.
                 
-                if(store.get('user').refreshToken) {
+                if(store.get('user').refreshToken && error.config.isRetryed != true) {
                     await Auth.refresh()
                     error.config.headers.Authorization = store.get('user').token;
+                    error.config.isRetryed = true;
                     return instance(error.config);
                 }
                 // TODO: refresh_token 여부에 따라서 /logout 혹은 refresh 작동.
