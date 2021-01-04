@@ -154,6 +154,8 @@ export const clearToken = () => {
     sendToken("");
 }
 
+export { default as AuthRoute } from "./AuthRoute";
+
 export default {
     verify,
     deepVerify,

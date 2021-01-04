@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import jwt from "jsonwebtoken";
 import store from "store";
-import _ from "lodash";
 import { ReCaptcha, loadReCaptcha } from 'react-recaptcha-v3'
-
-import reducer from "utils/reducer";
-import { Input, Button } from "Components";
-import query, { getErrorMessage } from "api";
-import { showToast } from "utils";
 
 import { version, description } from "../../package.json";
 
-import LoginArea from "./LoginArea";
-import JoinArea from "./JoinArea";
+import LoginArea from "./parts/LoginArea";
+import JoinArea from "./parts/JoinArea";
 
 let interval = null
 function Page({ ...props }) {

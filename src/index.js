@@ -3,7 +3,7 @@ import * as serviceWorker from './serviceWorker';
 
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import AuthRoute from "Components/AuthRoute"
+import { AuthRoute } from "Auth"
 
 import { version, description } from "../package.json";
 
