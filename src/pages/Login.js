@@ -22,6 +22,18 @@ function Page({ ...props }) {
         interval = window.setInterval(updateToken, 100 * 1000);
         return () => {
             window.clearInterval(interval);
+
+            // 로그인 페이지를 이탈할때 리캡챠 UI와 스크립트 제거
+            const nodeBadge = document.querySelector('.grecaptcha-badge');
+            if (nodeBadge) {
+                document.body.removeChild(nodeBadge.parentNode);
+            }
+
+            const scriptSelector = 'script[src^=\'https://www.recaptcha.net/recaptcha/api.js\']';
+            const script = document.querySelector(scriptSelector);
+            if (script) {
+                script.remove();
+            }
         }
     }, []);
 
