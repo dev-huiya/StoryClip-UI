@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { Route, Redirect, useHistory } from "react-router-dom";
 
 import Auth from "Auth"
+import { loadUser } from "../utils/user";
 
 function AuthRoute({ component: Component, render, withoutLogin = false, ...rest }) {
 
@@ -17,6 +18,11 @@ function AuthRoute({ component: Component, render, withoutLogin = false, ...rest
     //     })();
         
     // }, [history])
+
+    useEffect(()=>{
+        console.log("AuthRoute useEffect");
+        loadUser();
+    }, []);
     
     return (
         <Route

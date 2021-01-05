@@ -80,3 +80,13 @@ react-recaptcha-v3
 https://github.com/codeep/react-recaptcha-v3
 Codeep
 MIT License
+
+redux
+https://github.com/reduxjs/redux
+Copyright (c) 2015-present Dan Abramov
+The MIT License (MIT)
+
+react-redux
+https://github.com/reduxjs/react-redux
+Copyright (c) 2015-present Dan Abramov
+The MIT License (MIT)
