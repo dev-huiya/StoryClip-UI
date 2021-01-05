@@ -4,6 +4,7 @@ import query from "api";
 import Button from "Components/Button"
 import { Link } from "react-router-dom";
 import Auth from "Auth";
+import Header from "./parts/Header";
 
 const animationOptions = {
     appear: true,
@@ -15,6 +16,7 @@ function Page({ ...props }) {
 
     return (
         <React.Fragment>
+            <Header />
             <div className="flex flex-center w-full h-full" >
                 <div className="flex">
                     <div style={{width:"600px"}}>

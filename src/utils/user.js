@@ -24,8 +24,6 @@ export const loadUser = () => {
         url: "/account/info"
     })
     .then(res=>{
-        console.log(res);
-
         let user = _.pick(res, userKeys);
         reducer.dispatch(setUser(user));
     })
