@@ -3,12 +3,14 @@ import query from "api"
 
 import jwt from "jsonwebtoken";
 import { Button } from 'Components';
+import Header from "./parts/Header";
 
 
 function Page({ ...props }) {
 
     return (
         <React.Fragment>
+            <Header />
             <div className="flex flex-center w-full h-full" >
                 <div className="flex">
                     <div style={{width:"600px"}}>

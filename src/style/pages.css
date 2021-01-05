@@ -1,0 +1,22 @@
+.blue {
+  color: #1483ff;
+}
+.red {
+  color: #ff4949;
+}
+.global-header {
+  height: 60px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.global-header .user-info {
+  height: 100%;
+}
+.global-header .user-info .profile {
+  height: 40px;
+  width: 40px;
+}
+.global-header .user-info .penName {
+  margin-left: 10px;
+}

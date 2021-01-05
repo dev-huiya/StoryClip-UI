@@ -2,10 +2,13 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 import React from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import AuthRoute from "Components/AuthRoute"
+import {BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
+import {AuthRoute} from "Auth"
 
-import { version, description } from "../package.json";
+import {Provider} from 'react-redux';
+import store from 'common/reducer';
+
+import {version, description} from "../package.json";
 
 // pages
 import Index from "./pages/Index";
@@ -23,20 +26,22 @@ import "toastify-js/src/toastify.css"
 import "./style/index.css";
 
 ReactDOM.render(
-  <React.Fragment>
-    <BrowserRouter>
-      <Switch>
-        <AuthRoute exact path="/" component={Index}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/logout" component={Logout}/>
+    <React.Fragment>
+        <Provider store={store}>
+            <BrowserRouter>
+                <Switch>
+                    <AuthRoute exact path="/" component={Index}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/logout" component={Logout}/>
 
-        <AuthRoute path="/test" component={Test}/>
+                    <AuthRoute path="/test" component={Test}/>
 
-        <Route component={_404} />
-      </Switch>
-    </BrowserRouter>
-  </React.Fragment>,
-  document.getElementById('root')
+                    <Route component={_404}/>
+                </Switch>
+            </BrowserRouter>
+        </Provider>
+    </React.Fragment>,
+    document.getElementById('root')
 );
 
 console.log(`%c${description} v${version}`, "color:#F1507C;font-family: 'NanumSquareRound',sans-serif;font-size:28px;font-weight:900");
@@ -47,9 +52,9 @@ console.log(`%c${description} v${version}`, "color:#F1507C;font-family: 'NanumSq
 serviceWorker.register();
 
 document.addEventListener("touchstart", event => {
-  if(event.touches.length > 1) {
-      console.log("zoom plz stahp");
-      event.preventDefault();
-      event.stopPropagation(); // maybe useless
-  }
+    if (event.touches.length > 1) {
+        console.log("zoom plz stahp");
+        event.preventDefault();
+        event.stopPropagation(); // maybe useless
+    }
 }, {passive: false});

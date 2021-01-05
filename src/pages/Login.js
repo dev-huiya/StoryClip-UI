@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import jwt from "jsonwebtoken";
 import store from "store";
-import _ from "lodash";
 import { ReCaptcha, loadReCaptcha } from 'react-recaptcha-v3'
-
-import reducer from "utils/reducer";
-import { Input, Button } from "Components";
-import query, { getErrorMessage } from "api";
-import { showToast } from "utils";
 
 import { version, description } from "../../package.json";
 
-import LoginArea from "./LoginArea";
-import JoinArea from "./JoinArea";
+import LoginArea from "./parts/LoginArea";
+import JoinArea from "./parts/JoinArea";
 
 let interval = null
 function Page({ ...props }) {
@@ -29,6 +22,18 @@ function Page({ ...props }) {
         interval = window.setInterval(updateToken, 100 * 1000);
         return () => {
             window.clearInterval(interval);
+
+            // 로그인 페이지를 이탈할때 리캡챠 UI와 스크립트 제거
+            const nodeBadge = document.querySelector('.grecaptcha-badge');
+            if (nodeBadge) {
+                document.body.removeChild(nodeBadge.parentNode);
+            }
+
+            const scriptSelector = 'script[src^=\'https://www.recaptcha.net/recaptcha/api.js\']';
+            const script = document.querySelector(scriptSelector);
+            if (script) {
+                script.remove();
+            }
         }
     }, []);
 
@@ -46,8 +51,8 @@ function Page({ ...props }) {
 
     useEffect(()=>{
         // TODO: useEffect가 느려서 잘보면 로그인 UI가 힐긋 보인다.
-        let user = store.get('user');
-        if(!!user && !!user.token && !!user.key) {
+        let token = store.get('token');
+        if(!!token && !!token.token && !!token.key) {
             history.push("/");
             // 로그인이 되어있을 경우 메인으로 이동
         }

@@ -8,8 +8,8 @@ import { showToast } from "utils"
 export const deepVerify = () => {
     return new Promise((resolve, reject)=>{
         console.log("deepVerify");
-        let user = store.get('user');
-        if(!user || !user.token || !user.key) {
+        let token = store.get('token');
+        if(!token || !token.token || !token.key) {
             resolve(false)
             return false;
         }
@@ -27,13 +27,13 @@ export const deepVerify = () => {
 
 export const verify = () => {
     console.log("verify")
-    let user = store.get('user');
+    let token = store.get('token');
 
     try {
-        if(!!user && !!user.token && !!user.key) {
-            let result = jwt.verify(user.token, user.key);
+        if(!!token && !!token.token && !!token.key) {
+            let result = jwt.verify(token.token, token.key);
 
-            sendToken(user.token);
+            sendToken(token.token);
 
             return true;
         } else {
@@ -46,7 +46,7 @@ export const verify = () => {
     } catch (error) {
         // 검증 실패했을 때
 
-        if(error.name == "TokenExpiredError" && !!user.refreshToken) {
+        if(error.name == "TokenExpiredError" && !!token.refreshToken) {
             // 토큰 만료 오류일때는 갱신한다.
             let result = (async () => await refresh() )();
             // await이 작동한다기보다는 일단 페이지 승인해주고 
@@ -66,8 +66,8 @@ export const refresh = () => {
     return new Promise((resolve, reject) => {
         console.log("refresh run")
 
-        let user = store.get('user');
-        let refreshToken = user.refreshToken;
+        let token = store.get('token');
+        let refreshToken = token.refreshToken;
         if(!refreshToken) {
             resolve(false);
             return false;
@@ -128,8 +128,7 @@ export const setToken = (token, publicKey) => {
     
             let data = _.pick(tokenData, ["info"]);
     
-            store.set("user", {
-                ...data,
+            store.set("token", {
                 token: token,
                 key: publicKey,
                 // 간이 검증시 저장된 키를, 완전 검증시 서버에서 불러온 키를 사용할 것.
@@ -153,6 +152,8 @@ export const clearToken = () => {
     store.clearAll();
     sendToken("");
 }
+
+export { default as AuthRoute } from "./AuthRoute";
 
 export default {
     verify,

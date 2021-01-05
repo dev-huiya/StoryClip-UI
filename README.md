@@ -9,9 +9,4 @@ React로 만든 StoryClip UI
 location / {
     try_files $uri /index.html;
 }
-
-# for php api router
-location ~* \/api\/* {
-    rewrite ^/(.*)$ /api/index.php?request=$1;
-}
 ```
