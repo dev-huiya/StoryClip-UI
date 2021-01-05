@@ -10,8 +10,8 @@ import Auth from "Auth";
 function Page({ ...props }) {
 
     useEffect(()=>{
-        let user = store.get('user');
-        if(!!user && !!user.token && !!user.key) {
+        let token = store.get('token');
+        if(!!token && !!token.token && !!token.key) {
             // 토큰이 있을때만 토큰 만료 처리
             query({
                 url: "/auth/signout",

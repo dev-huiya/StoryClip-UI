@@ -6,6 +6,8 @@ import store from "store";
 import { showToast } from "utils"
 import { getErrorMessage } from "./message"
 
+const TOKEN_HEADER = "Bearer ";
+
 const instance = axios.create({
     baseURL: process.env.REACT_APP_API_URL, //'/api', // api 서버와 react 서버가 다를 경우 여기서 설정 가능.
     timeout: 5 * 1000, // 기본 타임아웃 5초
@@ -31,9 +33,9 @@ instance.interceptors.response.use(
             case "TokenExpiredError":
                 // 토큰 만료.
                 
-                if(store.get('user').refreshToken && error.config.isRetryed != true) {
+                if(store.get('token').refreshToken && error.config.isRetryed != true) {
                     await Auth.refresh()
-                    error.config.headers.Authorization = store.get('user').token;
+                    error.config.headers.Authorization = TOKEN_HEADER + store.get('token').token;
                     error.config.isRetryed = true;
                     return instance(error.config);
                 }
@@ -67,10 +69,10 @@ const query = ({ url, method = "get", data }) => {
     let sendDataName = method.toLowerCase() == "get" ? "params" : "data";
 
     let headers = {};
-    let user = store.get('user');
-    if(!!user && !!user.token && !!user.key) {
+    let token = store.get('token');
+    if(!!token && !!token.token && !!token.key) {
         headers = {
-            Authorization: "Bearer " + user.token,
+            Authorization: TOKEN_HEADER + token.token,
         }
     }
 

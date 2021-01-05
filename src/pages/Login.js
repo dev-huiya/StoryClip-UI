@@ -51,8 +51,8 @@ function Page({ ...props }) {
 
     useEffect(()=>{
         // TODO: useEffect가 느려서 잘보면 로그인 UI가 힐긋 보인다.
-        let user = store.get('user');
-        if(!!user && !!user.token && !!user.key) {
+        let token = store.get('token');
+        if(!!token && !!token.token && !!token.key) {
             history.push("/");
             // 로그인이 되어있을 경우 메인으로 이동
         }
