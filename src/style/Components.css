@@ -30,3 +30,46 @@
   box-shadow: 0 3px 6px -1px rgba(59, 171, 63, 0.12), 0 10px 20px -4px rgba(59, 171, 63, 0.3);
   color: #FFF;
 }
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.16);
+}
+.dialog {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+.dialog-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+.dialog-body {
+  margin: 10px 0px;
+  width: 100%;
+  height: 100%;
+  word-break: break-all;
+  overflow: auto;
+}
+.dialog-submit {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+.dialog-submit Button {
+  margin: 0px 5px ;
+}
+/*# sourceMappingURL=Components.css.map */

@@ -33,7 +33,7 @@ ReactDOM.render(
                     <AuthRoute exact path="/" component={Index}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/logout" component={Logout}/>
-
+                    <Route path="/test" component={Test}/>
                     <AuthRoute path="/test" component={Test}/>
 
                     <Route component={_404}/>
