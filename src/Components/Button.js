@@ -13,14 +13,14 @@ function Button({ label, color, className, disabled, isLoading, ...props }) {
                 <button
                     {...props}
                     className={_color + (!!className ? " "+className : "")}
-                    disabled={!!isLoading && disabled == false ? isLoading : disabled}
+                    disabled={!!isLoading && disabled === false ? isLoading : disabled}
                 >
-                    {isLoading == false && (
+                    {isLoading === false && (
                         <React.Fragment>
                             {label}
                         </React.Fragment>
                     )}
-                    {isLoading == true && (
+                    {isLoading === true && (
                         <i className="icon-spin3 animate-spin"></i>
                     )}
                     
