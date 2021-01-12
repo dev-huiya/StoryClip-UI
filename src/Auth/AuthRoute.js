@@ -18,11 +18,6 @@ function AuthRoute({ component: Component, render, withoutLogin = false, ...rest
     //     })();
         
     // }, [history])
-
-    useEffect(()=>{
-        console.log("AuthRoute useEffect");
-        loadUser();
-    }, []);
     
     return (
         <Route
