@@ -4,7 +4,12 @@ import store from "store";
 
 import reducer from "common/reducer"
 import { setUser } from "common/reducer/user";
-import jwt from "jsonwebtoken";
+
+const userKeys = [
+    'email',
+    'penName',
+    'profile',
+]
 
 export const loadUser = () => {
     let token = store.get('token');
@@ -15,10 +20,15 @@ export const loadUser = () => {
         return false;
     }
 
-    try {
-        let result = jwt.verify(token.token, token.key);
-        reducer.dispatch(setUser(result.info));
-    } catch (e) {
+    query({
+        url: "/account/info"
+    })
+    .then(res=>{
+        let user = _.pick(res, userKeys);
+        reducer.dispatch(setUser(user));
+    })
+    .catch(err=>{
+        console.log(err);
         reducer.dispatch(setUser(null));
-    }
+    })
 }
