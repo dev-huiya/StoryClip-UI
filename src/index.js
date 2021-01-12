@@ -1,12 +1,13 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
-import React from 'react';
 import {BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
-import {AuthRoute} from "Auth"
-
 import {Provider} from 'react-redux';
 import store from 'common/reducer';
+
+import {AuthRoute} from "Auth"
+import {loadUser} from "./utils/user";
 
 import {version, description} from "../package.json";
 
@@ -24,6 +25,9 @@ import "toastify-js/src/toastify.css"
 
 // my style
 import "./style/index.css";
+
+// 초기 유저 정보 세팅
+loadUser();
 
 ReactDOM.render(
     <React.Fragment>

@@ -1,75 +1,82 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Button from "./Button";
 import PropTypes from "prop-types";
 
 function Dialog(
     {
-        dialogButton,
-        callbackFunc,
+        trigger,
+        afterOpen,
         onOpen,
         width,
         height,
         disabled,
         title,
         body,
-        submit
+        submit,
+        ...props
     }) {
-    const [open, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(false);
 
     useEffect(() => {
-        setOpen(open !== true ? false : onOpen);    // 인수로 받은 것
+        setOpen(isOpen !== true ? false : onOpen);    // 인수로 받은 것
     })
 
-    const handleClickOpen = () => {
+    const handleClickOpen = useCallback(() => {
         setOpen(true)
-        if (callbackFunc) {
-            callbackFunc()
+        if (afterOpen instanceof Function) {
+            afterOpen()
         }
-    }
+    }, [])
 
-    const handleClickClose = () => {
+    const handleClickClose = useCallback(() => {
         setOpen(false)
-    }
+    }, [])
 
     return (
         <React.Fragment>
             <div>
-                {dialogButton && (
-                    typeof dialogButton === "string" ?
+                {trigger && (
+                    typeof trigger === "string" ?
                         <Button
-                            label={dialogButton}
+                            label={trigger}
                             onClick={handleClickOpen}
                             disabled={disabled}
                             color="blue-gradient"
                             type="button"
                         /> :
-                        typeof dialogButton === "object" ?
+                        typeof trigger === "object" ?
                             <div
-                                onClick={handleClickOpen}>
-                                {dialogButton}
-                            </div>
+                                onClick={handleClickOpen}
+                            >{trigger}</div>
                             :
                             null
                 )}
             </div>
             {
-                open ?
+                isOpen ?
                     <React.Fragment>
-                        <div className="dialog-overlay">
-                            <div className="dialog" style={{width: width, height: height}}>
-                                <div className="dialog-title">
-                                    <div>{title}</div>
-                                    <div>
-                                        <button onClick={handleClickClose}>X</button>
+                        <div className="_dialog-overlay" onClick={handleClickClose}>
+                            <div
+                                className="_dialog"
+                                style={{width: width, height: height}}
+                                onClick={(e)=> { e.stopPropagation() }}
+                            >
+                                {title && (
+                                    <div className="_dialog-title">
+                                        <div>{title}</div>
+                                        <div>
+                                            <button onClick={handleClickClose}>X</button>
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
-                                <div className="dialog-body">
+
+                                <div className="_dialog-body">
                                     {body}
                                 </div>
 
                                 {submit && (
-                                    <div className="dialog-submit">
+                                    <div className="_dialog-submit">
                                         {submit}
                                     </div>
                                 )}
@@ -85,15 +92,15 @@ function Dialog(
 
 Dialog.propTypes = {
     onClick: PropTypes.func,
-    callbackFunc: PropTypes.func,
+    afterOpen: PropTypes.func,
     className: PropTypes.string,
     disabled: PropTypes.bool,
 }
 
 Dialog.defaultProps = {
     title: "",
-    width: "100%",
-    height: "100%",
+    width: "800px",
+    height: "500px",
     open: false,
     disabled: false,
 }

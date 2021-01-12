@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import {Link} from "react-router-dom";
-import {Image} from "../../Components";
+import {Image} from "Components";
 
 function Header({ user, ...props }) {
 
@@ -21,6 +21,7 @@ function Header({ user, ...props }) {
                     <Image
                         className={"profile"}
                         src={user.profile}
+                        // TODO: 프로필 이미지가 없으면 기본 이미지 표시해줘야함.
                     />
                     <span className={"penName"}>{user.penName}</span>
                 </div>

@@ -4,6 +4,7 @@ import _ from "lodash";
 
 import query, { getErrorMessage } from "api"
 import { showToast } from "utils"
+import {loadUser} from "utils/user";
 
 export const deepVerify = () => {
     return new Promise((resolve, reject)=>{
@@ -136,6 +137,7 @@ export const setToken = (token, publicKey) => {
                 refreshExpireDate: data.info.refreshExpireDate,
             });
 
+            loadUser();
             sendToken(token);
 
             resolve(true);

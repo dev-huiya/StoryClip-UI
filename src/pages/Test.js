@@ -6,7 +6,6 @@ import {Button} from 'Components';
 import Header from "./parts/Header";
 import Dialog from "../Components/Dialog";
 
-
 class Page extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +30,7 @@ class Page extends Component {
         const {dialogOpen} = this.state
         return (
             <React.Fragment>
-                <Header/>
+                <Header />
                 <div className="flex flex-center w-full h-full">
                     <div className="flex">
                         <div style={{width: "600px"}}>
@@ -55,10 +54,10 @@ class Page extends Component {
                                         type="button"
                                     />
                                     <Dialog
-                                        dialogButton={
+                                        trigger={
                                             <img src="/favicon.ico" alt="buttonLogo"/>
                                         }
-                                        callbackFunc={this.openDialog}
+                                        afterOpen={this.openDialog}
                                         onOpen={this.state.dialogOpen}
                                         width={"1000px"}
                                         height={"500px"}

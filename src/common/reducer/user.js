@@ -3,7 +3,7 @@ const SET_USER = 'user/SET'
 export const setUser = user => ({ type: SET_USER, user });
 
 const initState = {
-    user: null,
+
 }
 
 export default function user(state= initState, action) {
