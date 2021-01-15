@@ -16,6 +16,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Test from "./pages/Test";
+import ProjectMain from "./pages/ProjectMain";
 
 // http request error
 import _404 from "./pages/error/_404"
@@ -37,8 +38,10 @@ ReactDOM.render(
                     <AuthRoute exact path="/" component={Index}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/logout" component={Logout}/>
-                    <Route path="/test" component={Test}/>
+
+                    {/*<Route path="/test" component={Test}/>*/}
                     <AuthRoute path="/test" component={Test}/>
+                    <AuthRoute path="/PJ:projectId" component={ProjectMain}/>
 
                     <Route component={_404}/>
                 </Switch>
