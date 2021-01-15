@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import {Button} from 'Components';
 import Header from "./parts/Header";
 import Dialog from "../Components/Dialog";
+import Auth from "../Auth";
 
 class Page extends Component {
     constructor(props) {
@@ -38,18 +39,24 @@ class Page extends Component {
                             <div style={{marginTop: "20px"}}>
                                 <div>
                                     <Button
-                                        label={"메인 페이지"}
-                                        // onClick={() => {
-                                        //     props.history.push('/');
-                                        // }}
+                                        label={"api 토큰 만료 테스트"}
+                                        onClick={() => {
+                                            query({
+                                                url: "/auth/key",
+                                            }).then(res=>{
+                                                console.log("then ", res);
+                                            }).catch(err=>{
+                                                console.log(err);
+                                            })
+                                        }}
                                         color="blue-gradient"
                                         type="button"
                                     />
                                     <Button
-                                        label={"로그아웃"}
-                                        // onClick={() => {
-                                        //     props.history.push('/logout');
-                                        // }}
+                                        label={"토큰 갱신"}
+                                        onClick={async () => {
+                                            await Auth.refresh();
+                                        }}
                                         color="blue-gradient"
                                         type="button"
                                     />

@@ -16,6 +16,7 @@ function Header({ user, ...props }) {
             >
                 <div>
                     <Link to="/" >StoryClip</Link>
+                    <Link to="/logout" style={{marginLeft: "20px"}}>로그아웃</Link>
                 </div>
                 <div className={"user-info flex items-center"}>
                     <Image
